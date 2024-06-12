@@ -6,7 +6,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 //application routes
-// app.use('/api/v1/', router);
+// app.use('/api/', router);
 app.get('/', async (req: Request, res: Response) => {
   const a = 10;
   res.json({ a: a });
