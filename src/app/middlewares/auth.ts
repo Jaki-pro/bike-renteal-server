@@ -11,8 +11,7 @@ const auth = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // validation
     const tokenArray = req.headers.authorization?.split(' ');
-    const token = tokenArray?.[tokenArray?.length - 1];
-    console.log(token);
+    const token = tokenArray?.[tokenArray?.length - 1]; // separate from Bearer token
     // checking if the token is missing
     if (!token) {
       throw new AppError(
