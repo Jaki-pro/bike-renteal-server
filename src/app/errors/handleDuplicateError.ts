@@ -9,7 +9,7 @@ const handleDuplicateError = (err: any): TGenericErrorResponse => {
   if (match && match[1]) {
     extractedText = match[1];
   }
-  const errorSources: TErrorSources = [
+  const errorMessages: TErrorSources = [
     {
       path: '',
       message: `${extractedText} is already exist`,
@@ -18,8 +18,8 @@ const handleDuplicateError = (err: any): TGenericErrorResponse => {
   const statusCode = 400;
   return {
     statusCode,
-    message: 'Duplicate Error',
-    errorSources,
+    message: 'Duplicate Entry',
+    errorMessages,
   };
 };
 export default handleDuplicateError;
