@@ -5,6 +5,14 @@ import { TLoginUser } from './auth.interface';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { TUser } from '../User/user.interface';
+
+// Create User
+const createUserIntoDB = async (payload: TUser) => {
+  const result = await User.create(payload);
+  return await User.findOne({ email: payload?.email });
+};
+
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user exists
   const user = await User.isUserExistsByEmail(payload?.email);
@@ -38,4 +46,5 @@ const loginUser = async (payload: TLoginUser) => {
 };
 export const AuthServices = {
   loginUser,
+  createUserIntoDB,
 };

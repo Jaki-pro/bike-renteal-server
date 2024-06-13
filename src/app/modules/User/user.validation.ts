@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { User } from './user.model';
 import validator from 'validator';
 // Define the Zod schema
-const createUserValidation = z.object({
+const createUserValidationSchema = z.object({
   body: z.object({
     name: z.string({ required_error: 'name is required' }),
     email: z
@@ -18,5 +18,5 @@ const createUserValidation = z.object({
 });
 
 export const UserValidations = {
-  createUserValidation,
+  createUserValidationSchema,
 };

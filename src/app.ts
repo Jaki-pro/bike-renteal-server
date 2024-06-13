@@ -2,11 +2,11 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
-import { UserRoutes } from './app/modules/User/user.route';
 import router from './app/routes';
-
+import bodyParser from 'body-parser';
 const app: Application = express();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 //application routes
 app.use('/api', router);

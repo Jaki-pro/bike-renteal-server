@@ -18,7 +18,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       message: err?.message || 'Something went wrong',
     },
   ];
-
+  let appError: boolean = false;
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
@@ -40,17 +40,42 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     message = simplifiedError?.message;
     errorMessages = simplifiedError?.errorMessages;
   } else if (err instanceof AppError) {
+    appError = true;
     statusCode = err?.statusCode;
     message = err?.message;
   } else if (err instanceof Error) {
     message = err?.message;
   }
-  res.status(statusCode).json({
-    success: false,
-    message: message,
-    errorMessages,
-    err,
-    stack: config.NODE_ENV === 'development' ? err?.stack : null,
-  });
+
+  // Customize app Error
+  if (!appError) {
+    res.status(statusCode).json({
+      success: false,
+      message: message,
+      errorMessages,
+      //err,
+      stack: config.NODE_ENV === 'development' ? err?.stack : null,
+    });
+  } else if (appError && statusCode === 404) {
+    res.status(statusCode).json({
+      success: false,
+      message: message,
+      data: [],
+      //err,
+      //stack: config.NODE_ENV === 'development' ? err?.stack : null,
+    });
+  } else if (appError && statusCode === 401) {
+    res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message: message,
+    });
+  } else if (appError && statusCode === 400) {
+    res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message: message,
+    });
+  }
 };
 export default globalErrorHandler;
