@@ -19,14 +19,14 @@ const loginUser = async (payload: TLoginUser) => {
 
   if (!user) {
     // custom static method
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+    throw new AppError(httpStatus.NOT_FOUND, 'No User Found');
   }
 
   // checking if the user password is correct
   if (
     !(await User.isPasswordMatched(payload?.password, user?.password as string))
   ) {
-    throw new AppError(httpStatus.FORBIDDEN, 'Password is incorrect');
+    throw new AppError(httpStatus.BAD_REQUEST, 'Password is incorrect');
   }
   // Create Token and send to the client
   const jwtPayload = {
@@ -35,8 +35,9 @@ const loginUser = async (payload: TLoginUser) => {
   };
 
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
-    expiresIn: '10d',
+    expiresIn: '3d',
   });
+  //console.log(accessToken);
 
   const result = await User.findOne({ email: payload?.email });
   return {

@@ -53,7 +53,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       success: false,
       message: message,
       errorMessages,
-      err,
+      //err,
       stack: config.NODE_ENV === 'development' ? err?.stack : null,
     });
   } else if (appError && statusCode === 404) {
@@ -70,7 +70,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
       statusCode,
       message: message,
     });
-  } else if (appError && statusCode === 400) {
+  } else {
     res.status(statusCode).json({
       success: false,
       statusCode,

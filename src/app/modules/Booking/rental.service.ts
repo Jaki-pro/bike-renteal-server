@@ -21,6 +21,7 @@ const createRentalIntoDB = async (
         isAvailable: false,
       },
       {
+        new: true,
         runValidators: true,
         session,
       },
@@ -66,6 +67,7 @@ const returnBike = async (id: string) => {
         isAvailable: true,
       },
       {
+        new: true,
         runValidators: true,
         session,
       },
@@ -87,6 +89,7 @@ const returnBike = async (id: string) => {
         totalCost: totalCost.toFixed(2),
       },
       {
+        new: true,
         runValidators: true,
         session,
       },

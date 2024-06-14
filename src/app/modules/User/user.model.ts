@@ -18,10 +18,15 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
+      trim: true,
       select: 0,
     },
-    phone: { type: String, required: true, trim: true },
+    phone: {
+      type: String,
+      required: [true, 'Password is required'],
+      trim: true,
+    },
     address: { type: String, required: true, trim: true },
     role: {
       type: String,
@@ -50,6 +55,20 @@ userSchema.pre('save', async function (next) {
   );
   next();
 });
+// pre findOneAndUpdate middleware/hook: will work on update
+userSchema.pre('findOneAndUpdate', async function (next) {
+  // console.log(this, 'pre hook: we will save data');
+  // Hashing password and save into DB
+  const update = this.getUpdate();
+  if (update && 'password' in update) {
+    update.password = await bcrypt.hash(
+      update.password,
+      Number(config.bcrypt_salt_rounds),
+    );
+  }
+  next();
+});
+
 // Create static method for checking user exist
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
   const existingUser = await User.findOne({ email }).select('+password');
@@ -65,7 +84,6 @@ userSchema.statics.isPasswordMatched = async function (
     plainTextPassword,
     hashedPassword,
   );
-
   return isPasswordMatched;
 };
 export const User = model<TUser, UserModel>('User', userSchema);
