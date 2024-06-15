@@ -1,6 +1,4 @@
 import { z } from 'zod';
-import { User } from './user.model';
-import validator from 'validator';
 // Define the Zod schema
 const createUserValidationSchema = z.object({
   body: z.object({

@@ -3,13 +3,12 @@ import AppError from '../../errors/AppError';
 import { User } from '../User/user.model';
 import { TLoginUser } from './auth.interface';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import config from '../../config';
 import { TUser } from '../User/user.interface';
 
 // Create User
 const createUserIntoDB = async (payload: TUser) => {
-  const result = await User.create(payload);
+  await User.create(payload);
   return await User.findOne({ email: payload?.email });
 };
 
@@ -35,7 +34,7 @@ const loginUser = async (payload: TLoginUser) => {
   };
 
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
-    expiresIn: '3d',
+    expiresIn: '10d',
   });
   //console.log(accessToken);
 

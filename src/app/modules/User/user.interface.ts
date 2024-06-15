@@ -1,4 +1,4 @@
-import { Document, Model } from 'mongoose';
+import { Model } from 'mongoose';
 
 // Define the User interface
 export interface TUser {

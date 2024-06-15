@@ -13,20 +13,23 @@ const addBikeIntoDB = async (payload: TBike) => {
 
 // Get all Bikes from database
 const getAllBikesFromDB = async (query: Record<string, unknown>) => {
-  const bikeQuery = new QueryBuiler(Bike.find(), query);
+  const bikeQuery = new QueryBuiler(Bike.find(), query).fields();
   const result = await bikeQuery.modelQuery;
+  if (result?.length === 0) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
+  }
   return result;
 };
 
 // Update a Bike into database
 const updateBikeIntoDB = async (payload: Partial<TBike>, id: string) => {
-  const result = await Bike.updateOne({ _id: id }, payload, {
+  const result = await Bike.findByIdAndUpdate(id, payload, {
     runValidators: true,
   });
-  if (result.matchedCount === 0) {
-    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found to Update');
   }
-  return await Bike.findById(id);
+  return await Bike.findById(id).select('-__v');
 };
 
 // Delete a Bike from database

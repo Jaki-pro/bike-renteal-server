@@ -23,12 +23,15 @@ const auth = (...requiredRoles: string[]) => {
       token,
       config.jwt_access_secret as string,
     ) as JwtPayload;
-    const { userEmail, role, iat } = decoded;
+    const { userEmail } = decoded;
     // checking if the user exists
     const user = await User.isUserExistsByEmail(userEmail);
     if (!user) {
       // custom static method
-      throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'You have no access to this route',
+      );
     }
     // check if match the payload role with collection role
     if (requiredRoles && !requiredRoles.includes(decoded.role)) {

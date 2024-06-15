@@ -76,8 +76,9 @@ const returnBike = async (id: string) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to return Bike');
     }
 
+    // eslint-disable-next-line
     const totalCost =
-      ((new Date().getTime() - (rental?.startTime).getTime()) / 3600000) *
+      ((new Date().getTime() - rental.startTime.getTime()) / 3600000) *
       updateBike?.pricePerHour; // COST CALCULATION OF RENTAL
 
     // Finde Rental and update isReturned and returnTime and totalCost
@@ -113,6 +114,9 @@ const getMyRentalsFromDB = async (userData: JwtPayload) => {
   const user = await User.findOne({ email: userData?.userEmail });
 
   const result = await Booking.find({ userId: user?._id });
+  if (result?.length === 0) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No Data Found');
+  }
   return result;
 };
 

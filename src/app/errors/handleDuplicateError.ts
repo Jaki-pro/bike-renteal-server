@@ -1,6 +1,5 @@
-import mongoose from 'mongoose';
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
-
+// eslint-disable-next-line
 const handleDuplicateError = (err: any): TGenericErrorResponse => {
   const errorMessage = err.errmsg;
   const regex = /"(.*?)"/;
