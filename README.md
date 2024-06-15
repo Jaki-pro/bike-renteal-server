@@ -16,11 +16,9 @@ This project is a web-server-based application designed for managing bike rental
 
 ## Technologies Used
 
-- Frontend: HTML, CSS, JavaScript (React.js)
 - Backend: Node.js, Express.js
-- Database: MongoDB
+- Database: MongoDB, Mongoose
 - Authentication: JSON Web Tokens (JWT)
-- Other libraries: Bootstrap, Axios
 
 ## Installation
 
