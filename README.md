@@ -42,7 +42,7 @@ This project is a web-server-based application designed for managing bike rental
 
 ### Setup
 
-1. Clone the repository: git clone `https://github.com/Jaki-pro/bike-renteal-server.git`
+1. Clone the repository: `git clone https://github.com/Jaki-pro/bike-renteal-server.git`
 2. Navigate to the project directory: `cd bike-rental-server`
 3. Install dependencies:
 
